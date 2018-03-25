@@ -34,7 +34,7 @@ import adnziica.com.nutricion.fragments.PhotosFragment;
 import adnziica.com.nutricion.fragments.SettingsFragment;
 import adnziica.com.nutricion.other.CircleTransform;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HomeFragment.DataListener{
     //implements HomeFragment.OnFragmentInteractionListener
     //,MoviesFragment.OnFragmentInteractionListener
     //,PhotosFragment.OnFragmentInteractionListener
@@ -421,4 +421,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void sendData(String text) {
+
+        navItemIndex = 2;
+        CURRENT_TAG = TAG_MOVIES;
+        loadHomeFragment();
+
+        Fragment fragment = getHomeFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                android.R.anim.fade_out);
+        fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+
+        if(fragment instanceof MoviesFragment)
+        {
+
+            ((MoviesFragment) fragment).CalculoRealizado(text,getApplicationContext());
+        }
+
+
+    }
 }
